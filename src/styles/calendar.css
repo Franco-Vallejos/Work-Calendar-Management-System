@@ -1,0 +1,59 @@
+.container-calendar{
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0; 
+    justify-items: center;
+    justify-content: center;   
+}
+
+.container-monthday{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    height: 30rem;
+    padding: 0;
+}
+
+.container-day{
+    border-width: thin;
+    border-style: solid;
+    border-color: #000;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.container-header{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin: 0;
+    padding: 0;
+}
+
+.container-weekday{
+    border-width: thin;
+    border-style: solid;
+    border-color: #000;
+    width: 100%;
+    height: 100%;
+    height: 2rem;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+.container-noCurrentMonth{
+    border-width: thin;
+    border-style: solid;
+    border-color: #858383;
+    background-color: #f4ebeb;
+    padding: 5%;
+}
+
+.container-currentMonth{
+    border-width: thin;
+    border-style: solid;
+    border-color: #858383;
+    padding: 5%;
+}

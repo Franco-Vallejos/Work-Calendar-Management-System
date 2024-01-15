@@ -1,24 +1,14 @@
 import logo from './logo.svg';
 import './App.css';
+import Body from './components/Body';
+import PersonalCalendar from './components/PersonalCalendar';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Body>
+      <h1>Este es mi calendario!</h1>
+      <PersonalCalendar/>
+    </Body>
   );
 }
 
