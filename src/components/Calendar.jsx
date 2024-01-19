@@ -1,7 +1,23 @@
 import React from "react";
 import "../styles/calendar.css"
 
-function Calendar({esFormat, year, month}){
+function TM(){
+    return(
+        <div className="container-TM">
+            TM
+        </div>
+    );
+}
+
+function TT(){
+    return(
+        <div className="container-TT">
+            TT
+        </div>
+    );
+}
+
+function Calendar({jsonList, esFormat, year, month}){
     const weekDayEs = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
     const weekDayEn = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
 
@@ -57,7 +73,16 @@ function Calendar({esFormat, year, month}){
                         {
                 daysCurrentMonth.map((monthNum, index) => (
                     <div className="container-currentMonth" key={index}>
-                        {getDayCurrentMonth(index)}
+                        <span>{getDayCurrentMonth(index)}</span>
+                        {
+                            jsonList && jsonList[index] ? (
+                                jsonList[index]["TM"] === "Vallejos Franco" ? (
+                                    <TM/>
+                                ) : jsonList[index]["TT"] === "Vallejos Franco" ? (
+                                    <TT/>
+                                ) : null
+                            ) : null
+                        }
                     </div>
                 ))
             }

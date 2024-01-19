@@ -57,3 +57,19 @@
     border-color: #858383;
     padding: 5%;
 }
+
+.container-TM{
+    width: 6rem;
+    height: 3rem;
+    background-color: rgb(120, 194, 236);
+    border-radius: 20px;
+    text-align: center;
+}
+
+.container-TT{
+    width: 6rem;
+    height: 3rem;
+    background-color: rgb(206, 99, 66);
+    border-radius: 20px;
+    text-align: center;
+}
