@@ -9,16 +9,23 @@ function Year({month, year}){
     );
 }
 
-function Controls({month, toggleFormat, esFormat, handleNextMonth, handlePrevMonth}){
+
+function Controls({month, toggleFormat, esFormat, handleNextMonth, handlePrevMonth, handleOnlyMyCalendar, onlyMyCalendar}){
     const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     return(
         <div className="container-controls">
-            <div/>
+            <ToggleCalendar accion={handleOnlyMyCalendar} name = {onlyMyCalendar}/>
             <ToggleMonth className="toggleMonth" name = "Prev" accion={handlePrevMonth}/>
             <h2>{monthNames[month]}</h2>
             <ToggleMonth className="toggleMonth" name = "Next" accion={handleNextMonth}/>
             <ButtonFormat toggleFormat = {toggleFormat} esFormat = {esFormat} />   
         </div> 
+    );
+}
+
+function ToggleCalendar({accion, name}){
+    return(
+        <button onClick={accion}>{name ? "Todos" : "Personal"}</button>
     );
 }
 
@@ -28,12 +35,14 @@ function ToggleMonth({name, accion}){
     );
 }
 
-function CalendarControls({month, year, toggleFormat, esFormat, handleNextMonth, handlePrevMonth}){
+function CalendarControls({month, year, toggleFormat, esFormat, handleNextMonth, handlePrevMonth, handleOnlyMyCalendar, onlyMyCalendar}){
+    console.log(onlyMyCalendar);
     return(
         <div className="container-fluid container-calendarControls">
             <Year  year = {year}/>
             <Controls month={month} toggleFormat = {toggleFormat} esFormat = {esFormat}
-                    handlePrevMonth = {handlePrevMonth} handleNextMonth = {handleNextMonth}/>
+                    handlePrevMonth = {handlePrevMonth} handleNextMonth = {handleNextMonth}
+                    handleOnlyMyCalendar = {handleOnlyMyCalendar} onlyMyCalendar={onlyMyCalendar}/>
         </div>
     );
 }
