@@ -3,29 +3,29 @@ import Body from './components/Body';
 import PersonalCalendar from './components/PersonalCalendar';
 import { useState, useEffect } from 'react';
 
-export function useApi({ month, dni }) {
-  const [productos, setProductos] = useState([]);
+export function useApiGetCalendar({ month, dni }) {
+  const [calendar, setCalendar] = useState([]);
 
   useEffect(() => {
-    const obtenerProductos = async () => {
+    const getCalendar = async () => {
       try {
-        const respuesta = await fetch(`http://localhost:4000/api/query/${month}?dni=${dni}`);
+        const answer = await fetch(`http://localhost:4000/api/query/${month}?dni=${dni ? dni : ''}`);
         
-        if (!respuesta.ok) {
-          throw new Error('Error al obtener los productos');
+        if (!answer.ok) {
+          throw new Error('Error to get the Calendar');
         }
 
-        const datos = await respuesta.json();
-        setProductos(datos);
+        const data = await answer.json();
+        setCalendar(data);
       } catch (error) {
-        console.error('Hubo un error:', error);
+        console.error('Error:', error);
       }
     };
 
-    obtenerProductos();
+    getCalendar();
   }, [month, dni]);
 
-  return productos[0] || null;
+  return calendar[0] || null;
 }
 
 export function getMonth(month){
@@ -35,13 +35,37 @@ export function getMonth(month){
   return months[month];
 }
 
+function useApiGetPersonal(){
+  const [personal, setPersonal] = useState([]);
+
+  useEffect(() => {
+    const getPersonal = async () => {
+      try {
+        const answer = await fetch(`http://localhost:4000/api/query/personal/all`);
+        
+        if (!answer.ok) {
+          throw new Error('Error to get the Calendar');
+        }
+
+        const data = await answer.json();
+        setPersonal(data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    getPersonal();
+  }, []);
+  return personal[0] || null;
+}
+
 function App() {
   const month = getMonth(new Date().getMonth());
-  const jsonList = useApi({ month: month, dni: 43386520});
+  const jsonList = useApiGetCalendar({ month: month, dni: 43386520});
+  const personalList = useApiGetPersonal();
 
   return (
     <Body>
-      <PersonalCalendar jsonList={jsonList} />
+      <PersonalCalendar jsonList={jsonList} personalList = {personalList} />
     </Body>
   );
 }

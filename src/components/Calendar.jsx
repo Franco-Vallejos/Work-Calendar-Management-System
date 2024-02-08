@@ -1,19 +1,28 @@
 import React from "react";
 import "../styles/calendar.css"
-import {useApi, getMonth} from '../App.js'
+import {useApiGetCalendar, getMonth} from '../App.js'
 
-function TM(){
+function getNameByDNI(array, dni) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i].dni === dni) {
+            return array[i].namesurname;
+        }
+    }
+    return dni;
+}
+
+function TM({dni}){
     return(
         <div className="container-TM">
-            <span>TM</span>
+            <span>{dni ? dni : 'TM'}</span>
         </div>
     );
 }
 
-function TT(){
+function TT({dni}){
     return(
         <div className="container-TT">
-            <span>TT</span>
+            <span>{dni ? dni : 'TT'}</span>
         </div>
     );
 }
@@ -21,18 +30,18 @@ function TT(){
 function Day({day, today}) {
     return (
         <div className={`container-day ${today ? ' container-today' : ''}`}>
-            <span>{day}</span>
+            <p>{day}</p>
         </div>
     );
 }
 
 
-function Calendar({jsonList, esFormat, year, month}){
+function Calendar({jsonList, personalList, esFormat, year, month, onlyMyCalendar}){
     const weekDayEs = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
     const weekDayEn = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
 
     const monthName = getMonth(month);
-    jsonList = useApi({ month: monthName, dni: 43386520});
+    jsonList = useApiGetCalendar({ month: monthName, dni: onlyMyCalendar ? 43386520 : null});
 
     const getDayName = (index) => {
         return esFormat ? weekDayEs[index] : weekDayEn[index];
@@ -93,13 +102,11 @@ function Calendar({jsonList, esFormat, year, month}){
                 daysCurrentMonth.map((monthNum, index) => (
                     <div key={index} className={`container-currentMonth ${month === todayMonth && (index + 1) === today ? 'container-today' : ''}`}>
                         <Day day={getDayCurrentMonth(index)} />
-                        {jsonList && jsonList[0] ? (
-                            jsonList[0][index] === "TTM" ? (
-                                <TM />
-                            ) : jsonList[0][index] === "TTT" ? (
-                                <TT />
-                            ) : null
-                        ) : null}
+                    {onlyMyCalendar ?
+                        <PersonalList jsonList = {jsonList} index = {index}/>
+                    :
+                        <CalendarList jsonList={jsonList} personalList = {personalList} index={index}/>
+                    }
                     </div>
                 ))
             }
@@ -115,6 +122,41 @@ function Calendar({jsonList, esFormat, year, month}){
         </div>
     </div>
     );
+}
+
+function PersonalList({jsonList, index}){
+    return(<>
+            {jsonList && jsonList[0] ? (
+                jsonList[0][index] === "TTM" ? (
+                    <TM />
+                ) : jsonList[0][index] === "TTT" ? (
+                    <TT />
+                ) : null
+            ) : null}
+            </>
+    );
+}
+
+function CalendarList({jsonList, personalList, index}){
+    if(index){
+        const filteredElements = jsonList.filter(element => element[index]);
+        return (
+            <div className="container-names">{
+            filteredElements.map(element => {
+                if(element[index] === 'TTM'){
+                    return <div key = {element['dni']}><TM dni = {getNameByDNI(personalList, element['dni'])}/></div>
+                }
+                else if(element[index] === 'TTT'){
+                    return <div key = {element['dni']}><TT dni = {getNameByDNI(personalList, element['dni'])}/></div>
+                }
+                else{
+                    return null
+                }
+                }) 
+        }
+        </div>
+        );
+    }
 }
 
 export default Calendar;

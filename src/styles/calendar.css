@@ -19,9 +19,16 @@
     border-style: solid;
     border-color: #000;
     width: 100%;
-    height: 100%;
+    height: 0;
     margin: 0;
     padding: 0;
+    vertical-align: 0;
+}
+
+.container-day p{
+    padding: 0;
+    margin: 0;
+    vertical-align: top;
 }
 
 .container-header{
@@ -51,7 +58,7 @@
     border-style: solid;
     padding: 5%;
     text-align: center;
-    height: 6rem;
+    height: 8.5rem;
 }
 
 
@@ -81,7 +88,41 @@
     justify-content: center;
     justify-items: center;
     text-align: center;
-    
+}
+
+.container-names .container-TM,
+.container-names .container-TT {
+    display: flex;
+    margin: 0 auto;
+    margin-bottom: 0.2rem;
+    padding: 0.2rem;
+    width: 90%;
+    height: 1rem;
+    border-radius: 20px;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    text-align: center;
+}
+
+.container-names .container-TT span{
+    padding: 0;
+    margin: 0;
+    color: white;
+    font-size: medium;
+    text-align: center;
+    justify-self: center;
+    font-weight: 200;
+}
+
+.container-names .container-TM span{
+    padding: 0;
+    margin: 0;
+    font-size: medium;
+    text-align: center;
+    justify-self: center;
+    font-weight: 200;
+    height: auto;
 }
 
 .container-TM{

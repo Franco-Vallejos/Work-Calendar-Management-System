@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import Calendar from './Calendar';
 import CalendarControls from "./CalendarControls";
 
-function PersonalCalendar({jsonList}){
+function PersonalCalendar({jsonList, calendarList, personalList}){
     const nowDate = new Date();
     const nowYear = nowDate.getFullYear();
     const nowMonth = nowDate.getMonth(); 
@@ -37,7 +37,8 @@ function PersonalCalendar({jsonList}){
                             toggleFormat = {toggleFormat} esFormat = {esFormat}
                             handlePrevMonth = {handlePrevMonth} handleNextMonth = {handleNextMonth}
                             handleOnlyMyCalendar = {handleOnlyMyCalendar} onlyMyCalendar = {onlyMyCalendar}/>
-            <Calendar jsonList = {jsonList} esFormat = {esFormat} month = {month} year = {year}/>
+            <Calendar jsonList = {jsonList} personalList = {personalList}
+                    esFormat = {esFormat} month = {month} year = {year} onlyMyCalendar = {onlyMyCalendar}/>
         </div>
     );
 }
