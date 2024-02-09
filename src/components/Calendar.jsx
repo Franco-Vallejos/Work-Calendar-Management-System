@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/calendar.css"
-import {useApiGetCalendar, getMonth} from '../App.js'
+import {useApiGetCalendar, getMonth} from '../routes/App.js'
 
 function getNameByDNI(array, dni) {
     for (let i = 0; i < array.length; i++) {

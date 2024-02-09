@@ -1,6 +1,6 @@
-import './App.css';
-import Body from './components/Body';
-import PersonalCalendar from './components/PersonalCalendar';
+import '../styles/App.css';
+import Body from '../components/Body';
+import PersonalCalendar from '../components/PersonalCalendar';
 import { useState, useEffect } from 'react';
 
 export function useApiGetCalendar({ month, dni }) {
