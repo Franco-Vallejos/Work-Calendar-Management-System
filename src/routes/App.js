@@ -1,7 +1,9 @@
+// App.jsx
 import '../styles/App.css';
 import Body from '../components/Body';
 import PersonalCalendar from '../components/PersonalCalendar';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 export function useApiGetCalendar({ month, dni }) {
   const [calendar, setCalendar] = useState([]);
@@ -59,13 +61,13 @@ function useApiGetPersonal(){
 }
 
 function App() {
-  const month = getMonth(new Date().getMonth());
-  const jsonList = useApiGetCalendar({ month: month, dni: 43386520});
   const personalList = useApiGetPersonal();
-
+  const month = getMonth(new Date().getMonth());
+  const dni = 43386520;
+  const jsonList = useApiGetCalendar({ month: month, dni: dni });
   return (
     <Body>
-      <PersonalCalendar jsonList={jsonList} personalList = {personalList} />
+      <PersonalCalendar jsonList={jsonList} personalList={personalList} dni={dni} />
     </Body>
   );
 }

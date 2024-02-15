@@ -36,12 +36,12 @@ function Day({day, today}) {
 }
 
 
-function Calendar({jsonList, personalList, esFormat, year, month, onlyMyCalendar}){
+function Calendar({jsonList, dni, personalList, esFormat, year, month, onlyMyCalendar}){
     const weekDayEs = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
     const weekDayEn = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
 
     const monthName = getMonth(month);
-    jsonList = useApiGetCalendar({ month: monthName, dni: onlyMyCalendar ? 43386520 : null});
+    jsonList = useApiGetCalendar({ month: monthName, dni: onlyMyCalendar ? dni : null});
 
     const getDayName = (index) => {
         return esFormat ? weekDayEs[index] : weekDayEn[index];
@@ -138,7 +138,7 @@ function PersonalList({jsonList, index}){
 }
 
 function CalendarList({jsonList, personalList, index}){
-    if(index){
+    if(jsonList && index){
         const filteredElements = jsonList.filter(element => element[index]);
         return (
             <div className="container-names">{
