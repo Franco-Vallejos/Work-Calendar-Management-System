@@ -1,24 +1,26 @@
 import React from "react";
 import ButtonFormat from './ButtonFormat';
 import "../styles/calendarControls.css";
+import { useCalendar } from "../routes/App";
 
-function Year({month, year}){
+function Year(){
     return(
-            <h1>{year}</h1>
+            <h1>{useCalendar().getYear()}</h1>
 
     );
 }
 
 
-function Controls({month, toggleFormat, esFormat, handleNextMonth, handlePrevMonth, handleOnlyMyCalendar, onlyMyCalendar}){
+function Controls(){
     const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    const calendar = useCalendar();
     return(
         <div className="container-controls">
-            <ToggleCalendar accion={handleOnlyMyCalendar} name = {onlyMyCalendar}/>
-            <ToggleMonth className="toggleMonth" name = "Prev" accion={handlePrevMonth}/>
-            <h2>{monthNames[month]}</h2>
-            <ToggleMonth className="toggleMonth" name = "Next" accion={handleNextMonth}/>
-            <ButtonFormat toggleFormat = {toggleFormat} esFormat = {esFormat} />   
+            <ToggleCalendar accion={calendar.handleOnlyMyCalendar} name = {calendar.onlyMyCalendar}/>
+            <ToggleMonth className="toggleMonth" name = "Prev" accion={calendar.handlePrevMonth}/>
+            <h2>{monthNames[calendar.getMonth()]}</h2>
+            <ToggleMonth className="toggleMonth" name = "Next" accion={calendar.handleNextMonth}/>
+            <ButtonFormat/>   
         </div> 
     );
 }
@@ -35,14 +37,11 @@ function ToggleMonth({name, accion}){
     );
 }
 
-function CalendarControls({month, year, toggleFormat, esFormat, handleNextMonth, handlePrevMonth, handleOnlyMyCalendar, onlyMyCalendar}){
-    console.log(onlyMyCalendar);
+function CalendarControls(){
     return(
         <div className="container-fluid container-calendarControls">
-            <Year  year = {year}/>
-            <Controls month={month} toggleFormat = {toggleFormat} esFormat = {esFormat}
-                    handlePrevMonth = {handlePrevMonth} handleNextMonth = {handleNextMonth}
-                    handleOnlyMyCalendar = {handleOnlyMyCalendar} onlyMyCalendar={onlyMyCalendar}/>
+            <Year />
+            <Controls/>
         </div>
     );
 }

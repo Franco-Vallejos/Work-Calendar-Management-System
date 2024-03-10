@@ -1,8 +1,10 @@
 import React from 'react';
+import { useCalendar } from '../routes/App';
 
-function ButtonFormat({toggleFormat, esFormat}) {    
+function ButtonFormat() {    
+    const calendar = useCalendar()
     return (
-        <button onClick={toggleFormat}>{esFormat ? "Domingo - Sabado" : "Lunes - Domingo"}</button>
+        <button onClick={calendar.handleFormat}>{calendar.esFormat ? "Domingo - Sabado" : "Lunes - Domingo"}</button>
     );
 }
 

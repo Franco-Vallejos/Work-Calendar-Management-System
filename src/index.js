@@ -1,5 +1,4 @@
 import React from 'react';
-import { createContext, useContext, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles/index.css';
 import App from './routes/App.js';
@@ -12,7 +11,7 @@ import {AuthProvider} from "./auth/AuthProvider.jsx"
 const router = createBrowserRouter(
   [
     {
-      path: "/login",
+      path: "/",
       element: <Login/>
     },
     {

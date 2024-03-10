@@ -1,35 +1,61 @@
-// Login.jsx
-import { useState } from "react";
+import '../styles/login.css'
+import { useEffect, useState } from "react";
 import { useAuth} from "../auth/AuthProvider.jsx";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [errorResponse, setErrorResponse] = useState("");
   const auth = useAuth();
   const navigate = useNavigate();
 
-  if (auth.isAuthenticated) {
-    navigate("/loged");
-    return null;
-  }
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    auth.setIsAuthenticated(true);
-    navigate("/loged");
+    console.log(userName, password)
+    try{
+        const response = await fetch('http://localhost:5000/api/login',{
+          method: "POST",
+          headers: {
+            "Content-Type" : "application/json",
+          },
+          body: JSON.stringify({
+            userName,
+            password
+          })
+        });
+      if(response.ok){
+        const json = await response.json()
+        if(json.body.accessToken && json.body.refreshToken){
+          auth.saveUser(json)
+          navigate("/loged")
+        }
+        setErrorResponse("");
+      }
+      else{
+        console.log("Something went wrong");
+        const json = await response.json();
+        setErrorResponse(json.body.error)
+      }
+    } catch(error){
+      setErrorResponse("SERVER NOT RESPOND")
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className= "container-forms" onSubmit={handleSubmit}>
       <h1>Login</h1>
-      <label>DNI</label>
-      <input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />
+      {!!errorResponse && (<div className="container-errorMessage">{errorResponse}</div>)}
 
-      <label>Password</label>
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+      <div className= "container-labels">
+        <label>DNI</label>
+        <input className='input' type="userName" value={userName} onChange={(e) => setUserName(e.target.value)} />
 
-      <input type="submit" value="Submit" />
+        <label>Password</label>
+        <input className='input' type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+      </div>
+
+      <input type="submit" value="Login" />
     </form>
   );
 }
