@@ -1,0 +1,21 @@
+.container-day{
+    display: flex;
+    margin: 0 auto;
+    padding: 0;
+    width: 100%;
+    height: 30%;
+    border: none;
+    text-align: start;
+}
+
+.container-day span{
+    text-align: start;
+}
+
+.container-today{
+    border-color: aqua;
+    box-shadow: 0 0 0 0.2rem aqua;
+    background-color: #f0f0f0;
+}
+
+
