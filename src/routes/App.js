@@ -21,6 +21,7 @@ export const calendarContext = createContext({
   handlePrevMonth: () => {},
   handleOnlyMyCalendar: () => {},
   handleFormat: () => {},
+  reloadUserRequest: () => {},
 })
 
 
@@ -78,7 +79,6 @@ async function apiGetUserRequest(token) {
     
     if (response.ok) {
       const json = await response.json();
-      console.log(json.body);
       return json.body;
     }
   } catch (error) {
@@ -162,14 +162,10 @@ function App() {
     }
     getLists();
   }, [month, dni, auth, onlyMyCalendar, setCalendarList, setPersonalList, setCalendarListAll, setUserRequest])
-
-  if(userRequest)
-    console.log(userRequest[0])
   
   const handlePrevMonth = () => {
     const prevMonth = ((month - 1) === -1 ? 11 : (month - 1));
     const prevNowMonth = ((todayDate.getMonth() - 1) === -1 ? 11 : (todayDate.getMonth() - 1));
-    console.log(`${prevMonth} === ${prevNowMonth}`)
     if(month === prevNowMonth)
       return;
     setYear((year) => (year === (nowYear - 1) ? year : ((prevMonth - 1) === -1 ? year - 1 : year)));
@@ -197,6 +193,10 @@ function App() {
     return dni;
   };
 
+  const reloadUserRequest = async () => {
+    setUserRequest(await apiGetUserRequest(auth.getAccessToken()));
+  }
+
   return (
       <calendarContext.Provider
       value={{
@@ -215,6 +215,7 @@ function App() {
         handlePrevMonth,
         handleOnlyMyCalendar,
         handleFormat,
+        reloadUserRequest,
       }}
       >
         {dni ? (

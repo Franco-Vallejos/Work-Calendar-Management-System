@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState } from "react";
 import { useCalendar } from "../../routes/App";
 import Request from "./Request";
 import "../../styles/headerStyles/Modal.css";
@@ -9,9 +9,10 @@ function Modal({ onClose, showRequests }) {
   
     const calendar = useCalendar();
     const userRequestList = calendar.getUserRequest();
+    console.log(userRequestList);
     const myRequest = userRequestList.filter(element => element.originDni === calendar.getDni());
     const request = userRequestList.filter(element => !myRequest.includes(element));
-  
+
     return (
       <>
         <div className="modal-request-overlay" onClick={onClose}/>
@@ -26,12 +27,12 @@ function Modal({ onClose, showRequests }) {
           </div>
           <div className="requests-content">
             {!myRequestSelected &&
-              request.map(element => (
-                <Request request = {element} type = {myRequestSelected}/>
+              request.map((element, index) => (
+                <Request request = {element} type = {myRequestSelected} key={index}/>
               ))}
             {myRequestSelected &&
-              myRequest.map(element => (
-                <Request request = {element} type = {myRequestSelected}/>
+              myRequest.map((element, index) => (
+                <Request request = {element} type = {myRequestSelected} key={index}/>
               ))}
           </div>
         </div>

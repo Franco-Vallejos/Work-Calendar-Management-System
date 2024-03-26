@@ -1,34 +1,33 @@
-import React from "react";
-import "../styles/calendar.css"
-import {useCalendar} from '../routes/App.js'
-import { useState } from "react";
-import Day from "./calendarComponents/Day.jsx";
-import CalendarAllList from "./calendarComponents/CalendarAllList.jsx";
-import CalendarSelfList from "./calendarComponents/CalendarSelfList.jsx";
-import Modal from "./calendarComponents/Modal.jsx";
+import React, { createContext } from "react";
+import "../../styles/calendarStyles/calendar.css"
+import {useCalendar} from '../../routes/App.js'
+import { useState, useContext} from "react";
+import Day from "./Day.jsx";
+import CalendarAllList from "./CalendarAllList.jsx";
+import CalendarSelfList from "./CalendarSelfList.jsx";
+import Modal from "./Modal.jsx";
 
+export const workDateChangeContext = createContext({
+    getDateSelected: () => {},
+    getSelfWorkDateSelected: () => {},
+    setSelfDateChange: () => {},
+    setSelfWorkDateSelected: () => {},
+    onClose: () => {},
+})
 
-function Calendar(){
+export function Calendar(){
     const [showModal, setShowModal] = useState(false);
-    const [daySelected, setDaySelected] = useState();
-    const [selfDayChange, setSelfDayChange] = useState();
+    const [dateSelected, setSelfDateChange] = useState();
+    const [selfWorkDateSelected, setSelfWorkDateSelected] = useState();
     const weekDayEs = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
     const weekDayEn = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
     const calendar = useCalendar();
 
     const handleDayClick = (day) => {
-        setDaySelected(day);
+        const date = new Date(calendar.getYear(), calendar.getMonth(), day)
+        setSelfDateChange(date);
         setShowModal(true);
     };
-
-    const handleSelfDayChange = (day) =>{
-        const date = new Date(calendar.getYear(), calendar.getMonth(), day)
-        console.log(date)
-        if(date < calendar.getTodayDate())
-            return;
-        setSelfDayChange(day);
-        setShowModal(false);
-    }
   
     const getDayName = (index) => {
         return calendar.esFormat ? weekDayEs[index] : weekDayEn[index];
@@ -36,6 +35,14 @@ function Calendar(){
 
     const onClose = () => {
         setShowModal(false);
+    }
+
+    const getDateSelected = () => {
+        return dateSelected;
+    }
+
+    const getSelfWorkDateSelected = () => {
+        return selfWorkDateSelected;
     }
     
     let today = new Date();
@@ -51,7 +58,6 @@ function Calendar(){
     const lastDayPreviusMonth = Array.from({ length: firstDayWeekCurrentMonth - (calendar.esFormat ? 0 : 1)}, (_, index) => lasthDayPreviusMonth - index).reverse();
     const daysCurrentMonth = Array.from({ length: lasthDayCurrentMonth }, (_, index) => index + 1);
     
-
     const lastDaysInCalendar = 7 -(new Date(calendar.getYear(), calendar.getMonth() + 1, 1).getDay()) + (calendar.esFormat ? 0 : 1) 
     const firstDaysNextMont = Array.from({ length: (lastDaysInCalendar === 7 ? 0 : lastDaysInCalendar) }, (_, index) => index + 1);
     
@@ -83,7 +89,16 @@ function Calendar(){
         </div>
         <div className="container-monthday">
         {showModal && (
-            <Modal onClose={onClose} day={daySelected} handleSelfDayChange = {handleSelfDayChange}/>
+            <workDateChangeContext.Provider
+            value={{
+                getDateSelected,
+                getSelfWorkDateSelected,
+                setSelfDateChange,
+                setSelfWorkDateSelected,
+                onClose,
+            }}>
+                <Modal/>
+            </workDateChangeContext.Provider>
         )}
 
             {
@@ -100,7 +115,7 @@ function Calendar(){
                     {calendar.onlyMyCalendar ?
                         <CalendarSelfList index = {index}/>
                     :
-                        <CalendarAllList index= {index} handleSelfDayChange = {handleSelfDayChange}/>
+                        <CalendarAllList index= {index}/>
                     }
                     </div>
                 ))
@@ -119,4 +134,4 @@ function Calendar(){
     );
 }
 
-export default Calendar;
+export const useWorkDateChangeContext = () => useContext(workDateChangeContext)

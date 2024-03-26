@@ -2,7 +2,7 @@ import React from "react";
 import { useCalendar } from "../../routes/App.js";
 import { TM, TT } from "./DayTypeTurn.jsx";
 
-function CalendarAllList({index, handleSelfDayChange}){
+function CalendarAllList({index, onClickSelfWorkDate, onClickWorkDate}){
     const calendar = useCalendar();
     const calendarList = calendar.getCalendarListAll();
     if(calendarList && index){
@@ -10,11 +10,12 @@ function CalendarAllList({index, handleSelfDayChange}){
         return (
             <div className="container-names">{
             filteredElements.map(element => {
+                const dni = element['dni'];
                 if(element[index] === 'TTM'){
-                    return <div key = {element['dni']}><TM dni = {calendar.getNameByDNI(element['dni'])} onClickFunction={ calendar.getDni() === element['dni'] ? handleSelfDayChange : undefined } day = {index + 1}/></div>
+                    return <div key = {dni}><TM dni = {dni} onClickFunction={ calendar.getDni() === dni ? onClickSelfWorkDate : onClickWorkDate }/></div>
                 }
                 else if(element[index] === 'TTT'){
-                    return <div key = {element['dni']}><TT dni = {calendar.getNameByDNI(element['dni'])} onClickFunction={ calendar.getDni() === element['dni'] ? handleSelfDayChange : undefined } day = {index + 1}/></div>
+                    return <div key = {dni}><TT dni = {dni} onClickFunction={ calendar.getDni() === dni ? onClickSelfWorkDate : onClickWorkDate }/></div>
                 }
                 else{
                     return null
