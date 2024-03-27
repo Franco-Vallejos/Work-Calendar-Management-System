@@ -1,0 +1,11 @@
+.request-waiting{
+    background-color: yellow;
+}
+
+.request-accepted{
+    background-color: green;
+}
+
+.request-rejected{
+    background-color: red;
+}

@@ -1,12 +1,8 @@
 import React from "react";
 import { useCalendar } from "../../routes/App";
 import { useAuth } from "../../auth/AuthProvider";
+import  "../../styles/headerStyles/Request.css"
 
-function Button({name}){
-    return(
-        <button>{name}</button>
-    );
-}
 
 function Request({request, type}) {
     const calendar = useCalendar();
@@ -16,16 +12,16 @@ function Request({request, type}) {
     const destinationDate = sqlToJsDate(request.destinationDate);
 
     return(
-        <div className="request-container">
+        <div className={"request-container request-" + request.state}>
             <span>{originUser} solicita turno {originDate.getDate() + '/' + (originDate.getMonth() + 1) + ' '} 
                     por el turno {destinationDate.getDate() + '/' + (destinationDate.getMonth() + 1)}
                 <div className="button-container">
                     { type? 
-                    <Button name = 'elim' onClick={elimRequest(auth.getAccessToken(), request)}/>
+                    <button onClick={() => {elimRequest(auth.getAccessToken(), request)}}>elim</button>
                     :
                     <>
-                    <Button name = 'aceptar'/>
-                    <Button name = 'rechazar'/>    
+                    <button onClick = {() => {updateCalendar(auth.getAccessToken(), request)}}>aceptar</button>
+                    <button onClick = {() => {rejectRequest(auth.getAccessToken(), request)}}>rechazar</button>
                     </>
                     }                            
                 </div>
@@ -55,6 +51,53 @@ async function elimRequest (token, request){
     console.log(error)
     }
 }
+
+
+async function rejectRequest (token, request){
+    try {
+    const response = await fetch(`http://localhost:5000/api/query/request/reject-request`, {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+            id : request.id
+        }),
+    });
+
+    if (response.ok) {
+        const json = await response.json();
+        return json.body;
+    }
+    } catch (error) {
+    console.log(error)
+    }
+}
+
+async function updateCalendar (token, request){
+    try {
+    const response = await fetch(`http://localhost:5000/api/query/request/update-calendar`, {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+            id : request.id
+        }),
+    });
+
+    if (response.ok) {
+        const json = await response.json();
+        return json.body;
+    }
+    } catch (error) {
+    console.log(error)
+    }
+}
+
+
 
 
 function sqlToJsDate(sqlDate){

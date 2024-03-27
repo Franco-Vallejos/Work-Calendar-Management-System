@@ -10,8 +10,8 @@ function Modal({ onClose, showRequests }) {
     const calendar = useCalendar();
     const userRequestList = calendar.getUserRequest();
     console.log(userRequestList);
-    const myRequest = userRequestList.filter(element => element.originDni === calendar.getDni());
-    const request = userRequestList.filter(element => !myRequest.includes(element));
+    const myRequest = userRequestList.filter(element => (element.originDni === calendar.getDni()) );
+    const request = userRequestList.filter(element => (element.destinationDni === calendar.getDni() && element.state === 'waiting') );
 
     return (
       <>

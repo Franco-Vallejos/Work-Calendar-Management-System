@@ -93,7 +93,7 @@ const onClickSelfWorkDate = (user) => {
                         <div className="modal-day">
                             <span>{date.getDate()}</span>
                         </div>
-                        <CalendarAllList index={date.getDate() - 1} onClickSelfWorkDate={onClickSelfWorkDate} onClickWorkDate={onClickWorkDate} />
+                        <CalendarAllList index={date.getDate()} onClickSelfWorkDate={onClickSelfWorkDate} onClickWorkDate={onClickWorkDate} />
                     </div>
                 </div>
             </>

@@ -113,9 +113,9 @@ export function Calendar(){
                     <div key={index} onClick={() => handleDayClick(index + 1)} className={`container-currentMonth ${calendar.getMonth() === todayMonth && (index + 1) === today ? 'container-today' : ''}`}>
                         <Day day={getDayCurrentMonth(index)} />
                     {calendar.onlyMyCalendar ?
-                        <CalendarSelfList index = {index}/>
+                        <CalendarSelfList index = {index + 1}/>
                     :
-                        <CalendarAllList index= {index}/>
+                        <CalendarAllList index= {index + 1}/>
                     }
                     </div>
                 ))
